@@ -1,4 +1,5 @@
 const menu=document.querySelector('.menu-toggle'),nav=document.querySelector('.primary-nav');
 if(menu){menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!open));nav.style.display=open?'none':'flex';if(!open){Object.assign(nav.style,{position:'absolute',top:'70px',left:'17px',right:'17px',flexDirection:'column',padding:'18px',background:'#111418',border:'1px solid #2a2f36'});}})}
+document.querySelectorAll('.primary-nav a').forEach(a=>{const label=a.textContent.trim().toLowerCase();const routes={services:'services.html',industries:'industries.html',work:'index.html#work',pricing:'pricing.html',about:'about.html',insights:'insights.html'};if(routes[label])a.href=routes[label];});
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=1000&&nav)nav.style.display='none'}));
-document.getElementById('year').textContent=new Date().getFullYear();
+const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
