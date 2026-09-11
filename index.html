@@ -451,6 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
 <script data-work-motion>
 (function(){const stage=document.querySelector('.work-showcase'),panels=[...document.querySelectorAll('.work-project')],current=document.getElementById('workCurrent');if(!stage||!panels.length)return;let active=-1,ticking=false;const finePointer=()=>window.matchMedia('(hover:hover) and (pointer:fine)').matches;function setActive(i){i=Math.max(0,Math.min(panels.length-1,i));if(i===active)return;active=i;panels.forEach((p,n)=>p.classList.toggle('is-active',n===active));if(current)current.textContent=String(active+1).padStart(2,'0')}function updateMobileFromScroll(){if(finePointer())return;const box=document.getElementById('workPanels');if(!box)return;const center=box.scrollLeft+box.clientWidth/2;let nearest=0,dist=Infinity;panels.forEach((p,i)=>{const d=Math.abs((p.offsetLeft+p.offsetWidth/2)-center);if(d<dist){dist=d;nearest=i}});setActive(nearest)}function scroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{updateMobileFromScroll();ticking=false})}panels.forEach((p,i)=>{p.addEventListener('pointerenter',()=>{if(finePointer())setActive(i)});p.addEventListener('focus',()=>setActive(i));p.addEventListener('click',()=>setActive(i));p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActive(i)}})});const box=document.getElementById('workPanels');if(box)box.addEventListener('scroll',scroll,{passive:true});setActive(0);updateMobileFromScroll()})();
 </script>
