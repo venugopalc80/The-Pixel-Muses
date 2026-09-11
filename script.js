@@ -23,3 +23,24 @@ document.querySelectorAll('.nav-drop-trigger').forEach(button=>button.addEventLi
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown').forEach(d=>{d.classList.remove('is-open');const t=d.querySelector('.nav-drop-trigger');if(t)t.setAttribute('aria-expanded','false')})});
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=1000&&nav)nav.style.display='none'}));
 const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
+
+/* Keep footer social icons self-contained: no external icon CDN required. */
+(function(){
+ const box=document.querySelector('.social-links');
+ if(!box)return;
+ const icons={
+  LinkedIn:'<path d="M6.5 8.1H3.1V21h3.4V8.1ZM4.8 3A2 2 0 1 0 4.8 7 2 2 0 0 0 4.8 3ZM21 13.6c0-3.9-2.1-5.8-4.9-5.8-2.3 0-3.3 1.3-3.9 2.2V8.1H8.8V21h3.4v-6.4c0-1.7.3-3.3 2.4-3.3 2 0 2 1.9 2 3.4V21H21v-7.4Z"/>',
+  Instagram:'<rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle>',
+  Facebook:'<path d="M14 8h3V4.5c-.5-.1-1.9-.2-3.6-.2C9.8 4.3 7.8 6.2 7.8 10v2H4.5v3.8h3.3V22h4v-6.2h3.4l.5-3.8h-3.9v-1.8c0-1.1.3-2.2 2.2-2.2Z"/>',
+  Threads:'<path d="M17.8 11.1c-.2-3.6-2.2-5.7-5.9-5.7-3.9 0-6.2 2.2-6.2 5.3 0 3.2 2.3 5.2 5.9 5.2 2.1 0 3.7-.8 4.5-2.3.6-1.2.1-2.5-1.1-3-1.4-.6-3.3-.1-3.3 1.3 0 .8.6 1.3 1.5 1.3 1.7 0 2.6-1.5 2.6-3.8 0-3.1-1.7-4.9-4.1-4.9-2.5 0-4.1 1.5-4.1 3.9 0 2.4 1.7 3.9 4.3 3.9 1.2 0 2.2-.3 3-.9"/>',
+  X:'<path d="M18.8 3H22l-7 8 8 10h-6.2l-4.9-6.1L6.5 21H3.3l7-8L2.6 3H9l4.5 5.6L18.8 3Zm-1.1 16.2h1.7L7 4.7H5.2l12.5 14.5Z"/>'
+ };
+ box.querySelectorAll('a').forEach(a=>{
+  const label=a.getAttribute('aria-label');
+  if(!icons[label])return;
+  a.querySelector('.social-icon')?.remove();
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.innerHTML=icons[label];
+  a.insertBefore(svg,a.querySelector('span:last-child'));
+ });
+})();
