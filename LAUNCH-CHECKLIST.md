@@ -50,3 +50,8 @@
 - [ ] No dead links.
 - [ ] 404 page exists.
 - [ ] Confirmation email works.
+
+## 2026-09-11 polish
+- [x] Route portfolio cards through case studies.
+- [x] Restore local production stylesheet and logo sizing.
+- [x] Replace fragile social icon CDN with inline SVG icons.
