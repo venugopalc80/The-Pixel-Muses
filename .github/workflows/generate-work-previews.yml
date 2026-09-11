@@ -1,0 +1,74 @@
+name: Generate Our Work previews
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  previews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install playwright
+          npx playwright install --with-deps chromium
+
+      - name: Capture project previews
+        run: |
+          mkdir -p assets
+          node <<'NODE'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const projects = [
+            ['01-property-adviser', 'https://property-adviser-co-uk.vercel.app/'],
+            ['02-tpm-clothing', 'https://tpm-clothing.vercel.app/'],
+            ['03-qahwa-for-life', 'https://qahwa-for-life.vercel.app/'],
+            ['04-revamp-automotive', 'https://revamp-automotive.vercel.app/'],
+            ['05-mooreish-delights', 'https://mooreish-delights.vercel.app/'],
+            ['06-leia-florals', 'https://leiaflorals.vercel.app/'],
+            ['07-dr-mosobhy', 'https://drmosobhy.vercel.app/'],
+            ['08-social-luxe', 'https://social-luxe-studios.vercel.app/'],
+            ['09-maple', 'https://maple-dusky-two.vercel.app/'],
+            ['10-nova-rituals', 'https://e-commerce-seven-murex-83.vercel.app/']
+          ];
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 1767, height: 819 }, deviceScaleFactor: 1 });
+            for (const [name, url] of projects) {
+              try {
+                await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+                await page.waitForTimeout(1800);
+                await page.screenshot({ path: `assets/${name}.jpg`, type: 'jpeg', quality: 72, fullPage: false });
+                console.log(`Captured ${name}`);
+              } catch (error) {
+                console.error(`Failed ${name}:`, error.message);
+              }
+            }
+            await browser.close();
+          })();
+          NODE
+
+      - name: Commit previews
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/*.jpg
+          if git diff --cached --quiet; then
+            echo "No preview changes to commit."
+          else
+            git commit -m "Add Our Work project previews"
+            git push
+          fi
