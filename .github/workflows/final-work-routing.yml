@@ -1,0 +1,53 @@
+name: Finalise work case-study routing
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  finalise:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update work cards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          replacements = {
+            'https://property-adviser-co-uk.vercel.app/': 'case-property-adviser.html',
+            'https://tpm-clothing.vercel.app/': 'case-tpm-clothing.html',
+            'https://qahwa-for-life.vercel.app/': 'case-qahwa-for-life.html',
+            'https://revamp-automotive.vercel.app/': 'case-revamp-automotive.html',
+            'https://mooreish-delights.vercel.app/': 'case-mooreish-delights.html',
+            'https://leiaflorals.vercel.app/': 'case-leia-florals.html',
+            'https://drmosobhy.vercel.app/': 'case-dr-mo.html',
+            'https://social-luxe-studios.vercel.app/': 'case-social-luxe.html',
+            'https://maple-dusky-two.vercel.app/': 'case-maple.html',
+            'https://e-commerce-seven-murex-83.vercel.app/': 'case-nova-rituals.html',
+          }
+          for old, new in replacements.items():
+              s = s.replace(old, new)
+          s = s.replace('target="_blank" rel="noopener noreferrer" aria-label="View ', 'aria-label="View ')
+          for name in ['Property Adviser','TPM Clothing','Qahwa for Life','Revamp Automotive','Mooreish Delights','Leia Florals','Dr Mo','Social Luxe Studios','Maple','Nova Rituals']:
+              s = s.replace(f'aria-label="View {name} live demo"', f'aria-label="View {name} case study"')
+          s = s.replace('<span class="work-project-arrow">↗</span>', '<span class="work-project-arrow">View Case Study <b>↗</b></span>')
+          p.write_text(s)
+          PY
+      - name: Commit and remove one-shot workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/final-work-routing.yml
+          git add index.html
+          if git diff --cached --quiet; then
+            git commit -m "Remove one-shot work routing workflow"
+          else
+            git commit -m "Route work cards through case studies"
+          fi
+          git push
