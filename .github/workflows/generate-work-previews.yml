@@ -6,6 +6,7 @@ on:
       - 'index.html'
       - 'styles.css'
       - 'scripts/build-work.js'
+      - 'scripts/update-social-icons.js'
       - '.github/workflows/generate-work-previews.yml'
   workflow_dispatch:
 permissions:
@@ -25,6 +26,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Build showcase and capture previews
         run: node scripts/build-work.js
+      - name: Apply footer social icon polish
+        run: node scripts/update-social-icons.js
       - name: Commit site and previews
         run: |
           git config user.name "github-actions[bot]"
@@ -33,6 +36,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Add 10-project Our Work showcase"
+            git commit -m "Polish footer social icons"
             git push
           fi
