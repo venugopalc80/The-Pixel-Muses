@@ -4,7 +4,7 @@ const htmlPath = 'index.html';
 const cssPath = 'styles.css';
 let html = fs.readFileSync(htmlPath, 'utf8');
 
-// Use the real Simple Icons brand artwork from a pinned CDN release.
+// Use real Simple Icons brand artwork from a pinned CDN release.
 const iconUrls = {
   linkedin: 'https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/linkedin.svg',
   instagram: 'https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/instagram.svg',
@@ -14,7 +14,7 @@ const iconUrls = {
 };
 
 for (const [name, url] of Object.entries(iconUrls)) {
-  const re = new RegExp(`<span class="social-icon(?: [^"]+)?">[\\s\\S]*?<\\/span>`);
+  const re = new RegExp(`<span class="social-icon social-icon-${name}">[\\s\\S]*?<\\/span>`);
   const replacement = `<span class="social-icon social-icon-${name}" aria-hidden="true"><img src="${url}" alt="" loading="lazy" decoding="async"></span>`;
   html = html.replace(re, replacement);
 }
