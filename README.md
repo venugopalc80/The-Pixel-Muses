@@ -34,3 +34,7 @@ V14: Social icons now use recognizable platform brand colors while preserving th
 
 ## Final build
 Stable production baseline. Experimental full-page 3D/service animations are intentionally excluded.
+
+
+## V15.2
+- Refined the selected-work showcase proportions and restored real project JPG imagery in the interactive cards.
