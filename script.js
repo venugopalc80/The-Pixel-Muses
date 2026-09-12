@@ -1,18 +1,183 @@
-const menu=document.querySelector('.menu-toggle'),nav=document.querySelector('.primary-nav');
-if(menu&&nav){menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!open));nav.style.display=open?'none':'flex';if(!open)Object.assign(nav.style,{position:'absolute',top:'72px',left:'18px',right:'18px',flexDirection:'column',alignItems:'stretch',padding:'18px',gap:'4px',background:'#11110f',border:'1px solid #2e2e2a'});});}
-const dropdownCss=`.nav-dropdown{position:relative;display:flex;align-items:center;height:100%}.nav-drop-trigger{appearance:none;border:0;background:transparent;color:inherit;font:inherit;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;padding:12px 0;cursor:pointer}.nav-drop-trigger span{font-size:14px;line-height:1;transition:transform .2s ease}.nav-dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;width:470px;transform:translate(-50%,-8px);padding:20px;background:#f4f0e8;color:#171716;border:1px solid rgba(20,20,18,.12);border-radius:16px;box-shadow:0 22px 55px rgba(0,0,0,.26);display:grid;grid-template-columns:1fr 1fr;gap:20px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,transform .2s ease,visibility .2s ease;z-index:80}.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu,.nav-dropdown.is-open .nav-dropdown-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}.nav-dropdown:hover .nav-drop-trigger span,.nav-dropdown.is-open .nav-drop-trigger span{transform:rotate(180deg)}.nav-menu-group{display:flex;flex-direction:column;gap:2px}.nav-menu-label{font-size:9px;letter-spacing:.14em;font-weight:800;color:#8b8273;margin:0 0 8px;padding:0 8px}.nav-menu-group a{font-size:13px;color:#5c5a55;padding:8px;border-radius:8px;line-height:1.25;transition:background .18s ease,color .18s ease,transform .18s ease}.nav-menu-group a:hover{background:#e7e0d4;color:#111;transform:translateX(2px)}.nav-menu-cta{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:2px;padding:14px 15px;background:#171716;color:#f4f0e8;border-radius:11px}.nav-menu-cta strong{display:block;font-size:12px;font-weight:700;margin-bottom:3px}.nav-menu-cta small{display:block;color:#aaa59b;font-size:10px}.nav-menu-cta b{font-size:18px;font-weight:400}.nav-industries-menu{width:400px;grid-template-columns:1fr 1fr}@media(max-width:1000px){.nav-dropdown{display:block;height:auto;width:100%}.nav-drop-trigger{width:100%;justify-content:space-between;padding:10px 0}.nav-dropdown-menu{position:static;width:100%;transform:none!important;display:none;opacity:1;visibility:visible;pointer-events:auto;box-shadow:none;border-radius:10px;padding:12px;margin:0 0 8px;background:#171a1d;color:#f4f0e8;grid-template-columns:1fr}.nav-dropdown.is-open .nav-dropdown-menu{display:grid}.nav-menu-label{color:#8d918f}.nav-menu-group a{color:#d7d9d6}.nav-menu-group a:hover{background:#22272b;color:#fff}.nav-menu-cta{background:#24292d}.nav-menu-cta small{color:#aeb2b0}}`;
-const style=document.createElement('style');style.textContent=dropdownCss;document.head.appendChild(style);
-function buildDropdown(label,groups,ctaText,ctaSub,ctaHref,extraClass=''){const wrap=document.createElement('div');wrap.className='nav-dropdown';const trigger=document.createElement('button');trigger.className='nav-drop-trigger';trigger.type='button';trigger.setAttribute('aria-expanded','false');trigger.innerHTML=`${label} <span>⌄</span>`;const panel=document.createElement('div');panel.className=`nav-dropdown-menu ${extraClass}`;groups.forEach(group=>{const g=document.createElement('div');g.className='nav-menu-group';const title=document.createElement('span');title.className='nav-menu-label';title.textContent=group.title;g.appendChild(title);group.links.forEach(item=>{const a=document.createElement('a');a.href=item[1];a.textContent=item[0];g.appendChild(a)});panel.appendChild(g)});const cta=document.createElement('a');cta.className='nav-menu-cta';cta.href=ctaHref;cta.innerHTML=`<span><strong>${ctaText}</strong><small>${ctaSub}</small></span><b>↗</b>`;panel.appendChild(cta);wrap.append(trigger,panel);return wrap;}
-if(nav){const services=[...nav.children].find(a=>a.tagName==='A'&&a.textContent.trim().toLowerCase()==='services');const industries=[...nav.children].find(a=>a.tagName==='A'&&a.textContent.trim().toLowerCase()==='industries');if(services)services.replaceWith(buildDropdown('Services',[{title:'DIGITAL EXPERIENCE',links:[['Web Design & Development','web-design.html'],['Website Redesign','web-design.html#redesign'],['E-commerce','web-design.html#ecommerce']]},{title:'GROWTH & VISIBILITY',links:[['SEO & Search','seo-search.html'],['Local SEO & Business Profiles','seo-search.html#local'],['Digital Growth & CRO','digital-growth.html']]},{title:'SOFTWARE & AI',links:[['Custom Software & Platforms','software-platforms.html'],['AI & Automation','ai-automation.html'],['Mobile Products','mobile-products.html']]}],'Not sure what you need?','Tell us what you are trying to improve.','contact.html'));if(industries)industries.replaceWith(buildDropdown('Industries',[{title:'WHO WE WORK WITH',links:[['Trades & Home Services','industries.html#trades'],['Professional Services','industries.html#professional'],['Health & Beauty','industries.html#health']]},{title:'SECTORS',links:[['Hospitality & Food','industries.html#hospitality'],['Retail & E-commerce','industries.html#retail'],['Property & Automotive','industries.html#property-automotive']]}],'Explore all industries','See where we can help your business.','industries.html','nav-industries-menu'));}
-document.querySelectorAll('.nav-drop-trigger').forEach(button=>button.addEventListener('click',()=>{const parent=button.closest('.nav-dropdown');const open=parent.classList.toggle('is-open');button.setAttribute('aria-expanded',String(open));document.querySelectorAll('.nav-dropdown').forEach(other=>{if(other!==parent){other.classList.remove('is-open');const t=other.querySelector('.nav-drop-trigger');if(t)t.setAttribute('aria-expanded','false')}})}));
-document.addEventListener('click',e=>{if(!e.target.closest('.nav-dropdown'))document.querySelectorAll('.nav-dropdown').forEach(d=>{d.classList.remove('is-open');const t=d.querySelector('.nav-drop-trigger');if(t)t.setAttribute('aria-expanded','false')})});
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=1000&&nav)nav.style.display='none'}));
-const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
-(function(){const box=document.querySelector('.social-links');if(!box)return;const icons={LinkedIn:'<path d="M6.5 8.1H3.1V21h3.4V8.1ZM4.8 3A2 2 0 1 0 4.8 7 2 2 0 0 0 4.8 3ZM21 13.6c0-3.9-2.1-5.8-4.9-5.8-2.3 0-3.3 1.3-3.9 2.2V8.1H8.8V21h3.4v-6.4c0-1.7.3-3.3 2.4-3.3 2 0 2 1.9 2 3.4V21H21v-7.4Z"/>',Instagram:'<rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle>',Facebook:'<path d="M14 8h3V4.5c-.5-.1-1.9-.2-3.6-.2C9.8 4.3 7.8 6.2 7.8 10v2H4.5v3.8h3.3V22h4v-6.2h3.4l.5-3.8h-3.9v-1.8c0-1.1.3-2.2 2.2-2.2Z"/>',Threads:'<path d="M17.8 11.1c-.2-3.6-2.2-5.7-5.9-5.7-3.9 0-6.2 2.2-6.2 5.3 0 3.2 2.3 5.2 5.9 5.2 2.1 0 3.7-.8 4.5-2.3.6-1.2.1-2.5-1.1-3-1.4-.6-3.3-.1-3.3 1.3 0 .8.6 1.3 1.5 1.3 1.7 0 2.6-1.5 2.6-3.8 0-3.1-1.7-4.9-4.1-4.9-2.5 0-4.1 1.5-4.1 3.9 0 2.4 1.7 3.9 3.9 3.9 1.2 0 2.2-.3 3-.9"/>',X:'<path d="M18.8 3H22l-7 8 8 10h-6.2l-4.9 6.1L6.5 21H3.3l7-8L2.6 3H9l4.5 5.6L18.8 3Zm-1.1 16.2h1.7L7 4.7H5.2l12.5 14.5Z"/>'};box.querySelectorAll('a').forEach(a=>{const label=a.getAttribute('aria-label');if(!icons[label])return;a.querySelector('.social-icon')?.remove();const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.innerHTML=icons[label];a.insertBefore(svg,a.querySelector('span:last-child'));});})();
-(function(){const work=document.getElementById('workPanels');if(!work)return;const names=['property-adviser','tpm-clothing','qahwa-for-life','revamp-automotive','mooreish-delights','leia-florals','dr-mo','social-luxe','maple','nova-rituals'];work.querySelectorAll('.work-project').forEach((card,i)=>{const img=card.querySelector('.work-project-media img');if(img)img.src=`assets/work-card/${String(i+1).padStart(2,'0')}-${names[i]}.svg`;});const workCss=document.createElement('style');workCss.textContent=`@media(max-width:767px){.work-showcase{overflow:visible;padding-bottom:72px}.work-intro{padding-bottom:8px}.work-stage{height:auto;margin-top:8px}.work-stage-head{height:42px;padding-top:4px}.work-panels{position:static;display:flex;flex-direction:column;gap:16px;height:auto;padding:0 16px;overflow:visible}.work-project,.work-project.is-active{flex:0 0 auto;width:100%;height:430px;min-height:430px;border-color:#34342f;cursor:pointer;transition:none}.work-project-link{height:100%;width:100%}.work-project-media img,.work-project.is-active .work-project-media img,.work-project:not(.is-active) .work-project-media img{transform:scale(1);filter:saturate(.82) brightness(.72);transition:none}.work-project-shade,.work-project:not(.is-active) .work-project-shade{background:linear-gradient(180deg,rgba(5,5,4,.08) 0%,rgba(5,5,4,.16) 32%,rgba(5,5,4,.82) 100%)}.work-project-info{padding:22px 22px 24px}.work-project-meta{gap:5px}.work-project-meta span,.work-project:not(.is-active) .work-project-meta span{writing-mode:initial;transform:none;color:var(--gold);font-size:12px;letter-spacing:.12em}.work-project-meta small,.work-project.is-active .work-project-meta small{opacity:1;transform:none;font-size:8px;letter-spacing:.14em;color:#dedbd3}.work-project-bottom,.work-project.is-active .work-project-bottom{opacity:1;transform:none;align-items:flex-end;gap:16px}.work-project-bottom h3{font-size:34px;line-height:1.02;margin:0 0 9px}.work-project-bottom p{font-size:12px;line-height:1.5;max-width:calc(100vw - 118px);color:#d3d0c8}.work-project-arrow{width:42px;min-width:42px;height:42px;padding:0;border-radius:50%;font-size:0;gap:0}.work-project-arrow b{font-size:17px}.work-stage-foot{height:auto;display:block;padding:20px 16px 0}.work-stage-foot>span:first-child{display:none}.work-stage-hint{font-size:9px;color:#77746d}}@media(max-width:430px){.work-panels{padding:0 14px;gap:14px}.work-project,.work-project.is-active{height:390px;min-height:390px}.work-project-info{padding:19px 19px 21px}.work-project-bottom h3{font-size:30px}.work-project-bottom p{font-size:11px;max-width:calc(100vw - 100px)}}`;document.head.appendChild(workCss);})();
-(function(){const grid=document.querySelector('.industry-grid');if(!grid)return;const cards=[...grid.querySelectorAll('a')];const property=cards.find(a=>a.querySelector('strong')?.textContent.trim()==='Property');if(property){const title=property.querySelector('strong');const detail=property.querySelector('small');if(title)title.textContent='Property & Automotive';if(detail)detail.textContent='Estate Agents · Developers · Property Services · Automotive';property.setAttribute('href','#contact');}})();
-(function(){const pricing=[...document.querySelectorAll('.primary-nav a')].find(a=>a.textContent.trim().toLowerCase()==='pricing');if(pricing)pricing.href='pricing.html';})();
-(function(){const headerCss=`.site-header .nav{height:90px;gap:32px}.site-header .brand{gap:14px}.site-header .brand-mark{width:60px;height:60px;flex-basis:60px}.site-header .brand-mark img{width:60px;height:60px}.site-header .brand-copy strong{font-size:20px;letter-spacing:.035em;white-space:nowrap}.site-header .brand-copy small{font-size:8px;letter-spacing:.17em;margin-top:6px;white-space:nowrap}.site-header .primary-nav{gap:27px;font-size:13px;align-items:center}.site-header .nav-drop-trigger{font-size:13px;font-weight:500}.site-header .nav-drop-trigger span{font-size:13px}.site-header .nav>.button{min-height:52px;padding:0 23px;font-size:12px;letter-spacing:.02em;white-space:nowrap}@media(max-width:1100px){.site-header .nav{gap:18px}.site-header .primary-nav{gap:16px;font-size:12px}.site-header .nav>.button{padding:0 17px}.site-header .brand-copy strong{font-size:18px}.site-header .brand-mark,.site-header .brand-mark img{width:56px;height:56px}.site-header .brand-mark{flex-basis:56px}}@media(max-width:760px){.site-header .nav{height:72px}.site-header .brand{gap:10px}.site-header .brand-mark,.site-header .brand-mark img{width:50px;height:50px}.site-header .brand-mark{flex-basis:50px}.site-header .brand-copy strong{font-size:16px}.site-header .brand-copy small{font-size:6.5px;letter-spacing:.14em;margin-top:5px}.site-header .menu-toggle{font-size:22px}.site-header .primary-nav{top:72px}}`;const headerStyle=document.createElement('style');headerStyle.id='tpm-master-header';headerStyle.textContent=headerCss;document.head.appendChild(headerStyle);})();
-(function(){const footerCss=`.footer-connect{padding:82px 0 0;text-align:center}.footer-connect-heading{display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:30px}.footer-connect-heading span{width:88px;height:1px;background:#2c2c28}.footer-connect-heading h2{margin:0;font-size:10px;letter-spacing:.28em;color:var(--gold);font-weight:700}.social-links{display:flex;justify-content:center;align-items:center;gap:28px;flex-wrap:wrap}.social-links a{display:inline-flex!important;align-items:center;gap:8px;border:0!important;padding:0!important;background:transparent!important;border-radius:0!important;color:#99968e;font-size:10px;letter-spacing:.04em;transition:color .2s ease!important;transform:none!important}.social-links a:hover{color:#f4f1e9;transform:none!important}.social-links a svg{width:20px!important;height:20px!important;display:block;flex:0 0 20px;fill:currentColor;stroke:currentColor;stroke-width:0;overflow:visible}.social-links a:nth-child(2) svg{fill:none;stroke:currentColor;stroke-width:1.7}.social-links a:nth-child(4) svg{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}.footer-divider{display:none!important}.footer-brand-center{padding-top:72px;text-align:center;display:flex;flex-direction:column;align-items:center}.footer-brand-link{display:inline-flex!important;margin:0 auto!important}.footer-brand-center>p{margin:22px 0 0;color:#6f6c64;font-size:11px}.footer-locations{display:flex;justify-content:center;gap:22px;margin-top:18px;color:#77746d;font-size:9px;letter-spacing:.12em}.footer-bottom{margin-top:58px;padding-top:22px;padding-bottom:24px;border-top:1px solid #22221f}@media(max-width:600px){.footer-connect{padding-top:64px}.footer-connect-heading{gap:14px;margin-bottom:24px}.footer-connect-heading span{width:46px}.social-links{gap:18px 22px}.social-links a{font-size:9px}.social-links a svg{width:18px!important;height:18px!important;flex-basis:18px}.footer-brand-center{padding-top:56px}.footer-brand-center>p{font-size:10px;padding:0 20px}.footer-locations{gap:14px}.footer-bottom{margin-top:44px}}`;const footerStyle=document.createElement('style');footerStyle.id='tpm-clean-footer';footerStyle.textContent=footerCss;document.head.appendChild(footerStyle);})();
-(function(){const hero=document.querySelector('.hero');if(!hero)return;const h1=hero.querySelector('.hero-copy h1'),lead=hero.querySelector('.hero-lead'),trust=hero.querySelector('.hero-trust'),stack=hero.querySelector('.hero-stack');if(h1)h1.innerHTML='Websites that work <em>harder for your business.</em>';if(lead)lead.textContent='Websites, search, software and AI — built to help your business get found, win customers and operate better.';if(trust)trust.querySelectorAll('span')[3]?.replaceWith(Object.assign(document.createElement('span'),{textContent:'WORKING GLOBALLY'}));if(stack){const kicker=stack.querySelector('.stack-kicker'),title=stack.querySelector('.stack-main strong'),desc=stack.querySelector('.stack-main p'),labels=stack.querySelectorAll('.stack-lines span');if(kicker)kicker.textContent='DIGITAL EXPERIENCE';if(title)title.innerHTML='From first click<br>to <em>customer.</em>';if(desc)desc.textContent='Strategy → Website → Search → Conversion';if(labels.length===4){labels[0].textContent='WEBSITE';labels[1].textContent='SEARCH';labels[2].textContent='CONVERSION';labels[3].textContent='SYSTEMS';}}const heroCss=`.hero-copy h1{max-width:720px;letter-spacing:-.035em}.hero-copy .hero-lead{max-width:650px}.hero-trust{letter-spacing:.16em}.hero-stack{box-shadow:0 18px 50px rgba(0,0,0,.16)}.hero-stack .stack-main strong{max-width:520px}@media(max-width:900px){.hero-copy h1{max-width:620px}.hero-stack .stack-main strong{max-width:440px}}@media(max-width:700px){.hero-copy h1{letter-spacing:-.025em}.hero-stack .stack-lines{letter-spacing:.12em}}`;const s=document.createElement('style');s.id='tpm-hero-refinement';s.textContent=heroCss;document.head.appendChild(s);})();
-(function(){const growth=document.querySelector('.growth-grid');if(!growth)return;growth.innerHTML=`<div class="growth-copy"><p class="eyebrow">BUILT FOR DISCOVERY</p><h2>Get found beyond <em>Google.</em></h2><p class="growth-lead">Customers now discover businesses through search engines, maps and AI-powered answers. We build the technical, local and content foundations that make your business easier to find, understand and trust.</p><div class="growth-pills"><span>SEO</span><span>LOCAL SEO</span><span>GOOGLE BUSINESS</span><span>APPLE BUSINESS</span><span>BING</span><span>AEO</span><span>GEO</span></div></div><div class="search-map"><div class="discovery-grid"><div><b>01</b><strong>SEARCH</strong><small>Google · Bing</small></div><div><b>02</b><strong>MAPS</strong><small>Google Maps · Apple Maps</small></div><div><b>03</b><strong>AI SEARCH</strong><small>AI answers · AEO · GEO</small></div><div><b>04</b><strong>LOCAL</strong><small>Business profiles · Local visibility</small></div></div><div class="discovery-foot">BE FOUND WHERE CUSTOMERS LOOK</div></div>`;const css=`.growth{padding-top:105px;padding-bottom:105px}.growth-grid{grid-template-columns:1fr 1fr;gap:0;border:1px solid #2c2c28}.growth-grid>div{border:0!important;padding:52px 52px 48px}.growth-copy{border-right:1px solid #2c2c28!important}.growth-grid h2{font-family:var(--serif);font-size:clamp(42px,4.6vw,66px);font-weight:500;line-height:1.02;letter-spacing:-.04em;margin:0 0 26px}.growth-grid h2 em{color:var(--gold);font-style:italic}.growth-lead{color:var(--muted);font-size:15px;line-height:1.7;max-width:560px}.growth-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}.growth-pills span{display:inline-flex;padding:8px 11px;border:1px solid #34342f;color:#aaa79f;font-size:9px;letter-spacing:.08em}.search-map{display:flex;flex-direction:column;justify-content:space-between;min-height:100%}.discovery-grid{display:grid;grid-template-columns:1fr 1fr}.discovery-grid>div{min-height:145px;padding:28px;border-bottom:1px solid #2c2c28}.discovery-grid>div:nth-child(odd){border-right:1px solid #2c2c28}.discovery-grid b{display:block;color:var(--gold);font-size:9px;letter-spacing:.16em;margin-bottom:30px}.discovery-grid strong{display:block;font-family:var(--serif);font-size:25px;font-weight:400;line-height:1.05}.discovery-grid small{display:block;color:#85827a;font-size:10px;margin-top:9px;line-height:1.4}.discovery-foot{padding:22px 28px;color:var(--gold);font-size:9px;letter-spacing:.16em}@media(max-width:900px){.growth-grid{grid-template-columns:1fr}.growth-copy{border-right:0!important;border-bottom:1px solid #2c2c28!important}.growth-grid>div{padding:42px 34px}.discovery-grid>div{min-height:130px}}@media(max-width:600px){.growth{padding-top:82px;padding-bottom:82px}.growth-grid>div{padding:32px 24px}.growth-grid h2{font-size:42px}.growth-pills{gap:6px}.growth-pills span{font-size:8px}.discovery-grid{grid-template-columns:1fr}.discovery-grid>div,.discovery-grid>div:nth-child(odd){border-right:0;border-bottom:1px solid #2c2c28;min-height:105px;padding:22px}.discovery-grid b{margin-bottom:14px}.discovery-grid strong{font-size:22px}.discovery-foot{padding:18px 22px;font-size:8px}}`;const gs=document.createElement('style');gs.id='tpm-discovery-refinement';gs.textContent=css;document.head.appendChild(gs);})();\n\n/* TPM HEADER REFINEMENT v1 */\n(function(){\n  const style=document.createElement('style');\n  style.textContent=`\n    .site-header .primary-nav{gap:25px;color:#d5d2c9}\n    .site-header .primary-nav a,.site-header .nav-drop-trigger{color:#d5d2c9}\n    .site-header .primary-nav a:hover,.site-header .nav-drop-trigger:hover{color:#f1efe9}\n    .site-header .nav>.button.button-outline{background:#f1efe9;color:#171714;border-color:#f1efe9}\n    .site-header .nav>.button.button-outline:hover{background:#fffdf7;color:#171714;border-color:#fffdf7;transform:translateY(-1px)}\n    .site-header .nav>.button.button-outline span{color:#80663e}\n    @media(max-width:1100px){.site-header .primary-nav{gap:17px}}\n  `;\n  document.head.appendChild(style);\n})();\n(function(){\n  const links=[...document.querySelectorAll('.primary-nav a')];\n  const pricing=links.find(a=>a.textContent.trim().toLowerCase()==='pricing');\n  if(pricing){pricing.textContent='Work With Us';pricing.href='pricing.html';}\n})();\n
+(() => {
+  const nav = document.querySelector('.primary-nav');
+  const menu = document.querySelector('.menu-toggle');
+
+  const addStyle = (id, css) => {
+    if (document.getElementById(id)) return;
+    const style = document.createElement('style');
+    style.id = id;
+    style.textContent = css;
+    document.head.appendChild(style);
+  };
+
+  addStyle('tpm-header-dropdowns', `
+    .nav-dropdown{position:relative;display:flex;align-items:center;height:100%}
+    .nav-drop-trigger{appearance:none;border:0;background:transparent;color:inherit;font:inherit;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;padding:12px 0;cursor:pointer}
+    .nav-drop-trigger span{font-size:13px;line-height:1;transition:transform .2s ease}
+    .nav-dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;width:470px;transform:translate(-50%,-8px);padding:20px;background:#f4f0e8;color:#171716;border:1px solid rgba(20,20,18,.12);border-radius:16px;box-shadow:0 22px 55px rgba(0,0,0,.26);display:grid;grid-template-columns:1fr 1fr;gap:20px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,transform .2s ease,visibility .2s ease;z-index:80}
+    .nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu,.nav-dropdown.is-open .nav-dropdown-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}
+    .nav-dropdown.is-open .nav-drop-trigger span{transform:rotate(180deg)}
+    .nav-menu-group{display:flex;flex-direction:column;gap:2px}
+    .nav-menu-label{font-size:9px;letter-spacing:.14em;font-weight:800;color:#8b8273;margin:0 0 8px;padding:0 8px}
+    .nav-menu-group a{font-size:13px;color:#5c5a55;padding:8px;border-radius:8px;line-height:1.25;transition:background .18s ease,color .18s ease,transform .18s ease}
+    .nav-menu-group a:hover{background:#e7e0d4;color:#111;transform:translateX(2px)}
+    .nav-menu-cta{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:2px;padding:14px 15px;background:#171716;color:#f4f0e8;border-radius:11px}
+    .nav-menu-cta strong{display:block;font-size:12px;font-weight:700;margin-bottom:3px}.nav-menu-cta small{display:block;color:#aaa59b;font-size:10px}.nav-menu-cta b{font-size:18px;font-weight:400}
+    .nav-industries-menu{width:400px}
+    .site-header .nav>.button.button-outline{background:#f1efe9;color:#171714;border-color:#f1efe9}
+    .site-header .nav>.button.button-outline:hover{background:#fffdf7;color:#171714;border-color:#fffdf7;transform:translateY(-1px)}
+    @media(max-width:1000px){.nav-dropdown{display:block;height:auto;width:100%}.nav-drop-trigger{width:100%;justify-content:space-between;padding:10px 0}.nav-dropdown-menu{position:static;width:100%;transform:none!important;display:none;opacity:1;visibility:visible;pointer-events:auto;box-shadow:none;border-radius:10px;padding:12px;margin:0 0 8px;background:#171a1d;color:#f4f0e8;grid-template-columns:1fr}.nav-dropdown.is-open .nav-dropdown-menu{display:grid}.nav-menu-label{color:#8d918f}.nav-menu-group a{color:#d7d9d6}.nav-menu-group a:hover{background:#22272b;color:#fff}.nav-menu-cta{background:#24292d}.nav-menu-cta small{color:#aeb2b0}}
+  `);
+
+  function buildDropdown(label, groups, ctaText, ctaSub, ctaHref, extraClass='') {
+    const wrap = document.createElement('div');
+    wrap.className = 'nav-dropdown';
+    const trigger = document.createElement('button');
+    trigger.className = 'nav-drop-trigger';
+    trigger.type = 'button';
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.innerHTML = `${label} <span>⌄</span>`;
+    const panel = document.createElement('div');
+    panel.className = `nav-dropdown-menu ${extraClass}`;
+    groups.forEach(group => {
+      const g = document.createElement('div');
+      g.className = 'nav-menu-group';
+      const title = document.createElement('span');
+      title.className = 'nav-menu-label';
+      title.textContent = group.title;
+      g.appendChild(title);
+      group.links.forEach(([text, href]) => {
+        const a = document.createElement('a');
+        a.href = href;
+        a.textContent = text;
+        g.appendChild(a);
+      });
+      panel.appendChild(g);
+    });
+    const cta = document.createElement('a');
+    cta.className = 'nav-menu-cta';
+    cta.href = ctaHref;
+    cta.innerHTML = `<span><strong>${ctaText}</strong><small>${ctaSub}</small></span><b>↗</b>`;
+    panel.appendChild(cta);
+    wrap.append(trigger, panel);
+    trigger.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      document.querySelectorAll('.nav-dropdown.is-open').forEach(other => {
+        if (other !== wrap) {
+          other.classList.remove('is-open');
+          other.querySelector('.nav-drop-trigger')?.setAttribute('aria-expanded', 'false');
+        }
+      });
+      const open = wrap.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', String(open));
+    });
+    return wrap;
+  }
+
+  if (nav) {
+    const services = [...nav.children].find(el => el.tagName === 'A' && el.textContent.trim().toLowerCase() === 'services');
+    const industries = [...nav.children].find(el => el.tagName === 'A' && el.textContent.trim().toLowerCase() === 'industries');
+
+    if (services) services.replaceWith(buildDropdown('Services', [
+      {title:'DIGITAL EXPERIENCE',links:[['Web Design & Development','web-design.html'],['Website Redesign','web-design.html#redesign'],['E-commerce','web-design.html#ecommerce']]},
+      {title:'GROWTH & VISIBILITY',links:[['SEO & Search','seo-search.html'],['Local SEO & Business Profiles','seo-search.html#local'],['Digital Growth & CRO','digital-growth.html']]},
+      {title:'SOFTWARE & AI',links:[['Custom Software & Platforms','software-platforms.html'],['AI & Automation','ai-automation.html'],['Mobile Products','mobile-products.html']]}
+    ], 'Not sure what you need?', 'Tell us what you are trying to improve.', 'contact.html'));
+
+    if (industries) industries.replaceWith(buildDropdown('Industries', [
+      {title:'WHO WE WORK WITH',links:[['Trades & Home Services','industries.html#trades'],['Professional Services','industries.html#professional'],['Health & Beauty','industries.html#health']]},
+      {title:'SECTORS',links:[['Hospitality & Food','industries.html#hospitality'],['Retail & E-commerce','industries.html#retail'],['Property & Automotive','industries.html#property-automotive']]}
+    ], 'Explore all industries', 'See where we can help your business.', 'industries.html', 'nav-industries-menu'));
+
+    const pricing = [...nav.querySelectorAll('a')].find(a => a.textContent.trim().toLowerCase() === 'pricing');
+    if (pricing) {
+      pricing.textContent = 'Work With Us';
+      pricing.href = 'pricing.html';
+    }
+  }
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.nav-dropdown')) {
+      document.querySelectorAll('.nav-dropdown.is-open').forEach(drop => {
+        drop.classList.remove('is-open');
+        drop.querySelector('.nav-drop-trigger')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  if (menu && nav) {
+    menu.addEventListener('click', () => {
+      const open = menu.getAttribute('aria-expanded') === 'true';
+      menu.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('is-open', !open);
+      nav.style.display = !open ? 'flex' : '';
+    });
+  }
+
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+
+  // Keep the existing Work cards using their dedicated SVG previews.
+  const work = document.getElementById('workPanels');
+  if (work) {
+    const names = ['property-adviser','tpm-clothing','qahwa-for-life','revamp-automotive','mooreish-delights','leia-florals','dr-mo','social-luxe','maple','nova-rituals'];
+    work.querySelectorAll('.work-project').forEach((card, i) => {
+      const img = card.querySelector('.work-project-media img');
+      if (img && names[i]) img.src = `assets/work-card/${String(i+1).padStart(2,'0')}-${names[i]}.svg`;
+    });
+  }
+
+  // Homepage hero refinement.
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    hero.querySelector('.hero-copy h1')?.replaceChildren(document.createTextNode('Websites that work harder for your business.'));
+    const h1 = hero.querySelector('.hero-copy h1');
+    if (h1) h1.innerHTML = 'Websites that work <em>harder for your business.</em>';
+    const lead = hero.querySelector('.hero-lead');
+    if (lead) lead.textContent = 'Websites, search, software and AI — built to help your business get found, win customers and operate better.';
+    const trust = hero.querySelector('.hero-trust');
+    if (trust) { const spans = trust.querySelectorAll('span'); if (spans[3]) spans[3].textContent = 'WORKING GLOBALLY'; }
+    const stack = hero.querySelector('.hero-stack');
+    if (stack) {
+      const kicker = stack.querySelector('.stack-kicker'), title = stack.querySelector('.stack-main strong'), desc = stack.querySelector('.stack-main p'), labels = stack.querySelectorAll('.stack-lines span');
+      if (kicker) kicker.textContent = 'DIGITAL EXPERIENCE';
+      if (title) title.innerHTML = 'From first click<br>to <em>customer.</em>';
+      if (desc) desc.textContent = 'Strategy → Website → Search → Conversion';
+      ['WEBSITE','SEARCH','CONVERSION','SYSTEMS'].forEach((v,i)=>{if(labels[i])labels[i].textContent=v;});
+    }
+  }
+
+  // Keep homepage industry wording aligned with the dedicated page.
+  const industryGrid = document.querySelector('.industry-grid');
+  if (industryGrid) {
+    const property = [...industryGrid.querySelectorAll('a')].find(a => a.querySelector('strong')?.textContent.trim() === 'Property');
+    if (property) {
+      property.querySelector('strong').textContent = 'Property & Automotive';
+      property.querySelector('small').textContent = 'Estate Agents · Developers · Property Services · Automotive';
+    }
+  }
+
+  // Discovery section.
+  const growth = document.querySelector('.growth-grid');
+  if (growth) {
+    const copy = growth.querySelector(':scope > div:first-child');
+    const map = growth.querySelector(':scope > div:last-child');
+    if (copy && map) {
+      copy.innerHTML = `<p class="eyebrow">BUILT FOR DISCOVERY</p><h2>Get found beyond <em>Google.</em></h2><p class="growth-lead">Customers now discover businesses through search engines, maps and AI-powered answers. We build the technical, local and content foundations that make your business easier to find, understand and trust.</p><div class="growth-pills"><span>SEO</span><span>LOCAL SEO</span><span>GOOGLE BUSINESS</span><span>APPLE BUSINESS</span><span>BING</span><span>AEO</span><span>GEO</span></div>`;
+      map.innerHTML = `<div class="discovery-grid"><div><b>01</b><strong>SEARCH</strong><small>Google · Bing</small></div><div><b>02</b><strong>MAPS</strong><small>Google Maps · Apple Maps</small></div><div><b>03</b><strong>AI SEARCH</strong><small>AI answers · AEO · GEO</small></div><div><b>04</b><strong>LOCAL</strong><small>Business profiles · Local visibility</small></div></div><div class="discovery-foot">BE FOUND WHERE CUSTOMERS LOOK</div>`;
+    }
+  }
+
+  addStyle('tpm-discovery', `
+    .growth-grid{grid-template-columns:1fr 1fr;gap:0;border:1px solid #2c2c28}.growth-grid>div{border:0!important;padding:52px}.growth-copy{border-right:1px solid #2c2c28!important}.growth-grid h2{font-family:var(--serif);font-size:clamp(42px,4.6vw,66px);font-weight:500;line-height:1.02;letter-spacing:-.04em;margin:0 0 26px}.growth-grid h2 em{color:var(--gold);font-style:italic}.growth-lead{color:var(--muted);font-size:15px;line-height:1.7;max-width:560px}.growth-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}.growth-pills span{padding:8px 11px;border:1px solid #34342f;color:#aaa79f;font-size:9px;letter-spacing:.08em}.search-map{display:flex;flex-direction:column;justify-content:space-between}.discovery-grid{display:grid;grid-template-columns:1fr 1fr}.discovery-grid>div{min-height:145px;padding:28px;border-bottom:1px solid #2c2c28}.discovery-grid>div:nth-child(odd){border-right:1px solid #2c2c28}.discovery-grid b{display:block;color:var(--gold);font-size:9px;letter-spacing:.16em;margin-bottom:30px}.discovery-grid strong{display:block;font-family:var(--serif);font-size:25px;font-weight:400}.discovery-grid small{display:block;color:#85827a;font-size:10px;margin-top:9px}.discovery-foot{padding:22px 28px;color:var(--gold);font-size:9px;letter-spacing:.16em}
+    @media(max-width:900px){.growth-grid{grid-template-columns:1fr}.growth-copy{border-right:0!important;border-bottom:1px solid #2c2c28!important}.growth-grid>div{padding:42px 34px}.discovery-grid>div{min-height:130px}}
+    @media(max-width:600px){.growth-grid>div{padding:32px 24px}.growth-grid h2{font-size:42px}.discovery-grid{grid-template-columns:1fr}.discovery-grid>div,.discovery-grid>div:nth-child(odd){border-right:0;min-height:105px;padding:22px}}
+  `);
+
+  addStyle('tpm-master-header', `
+    .site-header .nav{height:90px;gap:32px}.site-header .brand{gap:14px}.site-header .brand-mark,.site-header .brand-mark img{width:60px;height:60px}.site-header .brand-mark{flex-basis:60px}.site-header .brand-copy strong{font-size:20px;letter-spacing:.035em;white-space:nowrap}.site-header .brand-copy small{font-size:8px;letter-spacing:.17em;margin-top:6px;white-space:nowrap}.site-header .primary-nav{gap:25px;font-size:13px;align-items:center}
+    @media(max-width:1100px){.site-header .nav{gap:18px}.site-header .primary-nav{gap:17px;font-size:12px}.site-header .brand-copy strong{font-size:18px}.site-header .brand-mark,.site-header .brand-mark img{width:56px;height:56px}.site-header .brand-mark{flex-basis:56px}}
+    @media(max-width:760px){.site-header .nav{height:72px}.site-header .brand-mark,.site-header .brand-mark img{width:50px;height:50px}.site-header .brand-mark{flex-basis:50px}.site-header .brand-copy strong{font-size:16px}.site-header .brand-copy small{font-size:6.5px}.site-header .primary-nav{top:72px}}
+  `);
+})();
