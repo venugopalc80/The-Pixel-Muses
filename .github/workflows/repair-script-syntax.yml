@@ -1,0 +1,43 @@
+name: Repair script syntax
+
+on:
+  push:
+    paths:
+      - '.github/workflows/repair-script-syntax.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Remove broken appended script tail
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('script.js')
+          text = path.read_text(encoding='utf-8')
+          marker = '})();'
+          first = text.find(marker)
+          if first == -1:
+              raise SystemExit('Could not find script terminator')
+          repaired = text[:first + len(marker)] + '\n'
+          path.write_text(repaired, encoding='utf-8')
+          print(f'Repaired script.js: {len(text)} -> {len(repaired)} bytes')
+
+      - name: Commit repaired script
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add script.js
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git commit -m "Fix script.js syntax"
+          git push
