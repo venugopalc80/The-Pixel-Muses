@@ -58,7 +58,7 @@
   const work=document.getElementById('workPanels');
   if(work){
     const names=['property-adviser','tpm-clothing','qahwa-for-life','revamp-automotive','mooreish-delights','leia-florals','dr-mo','social-luxe','maple','nova-rituals'];
-    work.querySelectorAll('.work-project').forEach((card,i)=>{const img=card.querySelector('.work-project-media img');if(img&&names[i])img.src=`assets/work-card/${String(i+1).padStart(2,'0')}-${names[i]}.svg`});
+    work.querySelectorAll('.work-project').forEach((card,i)=>{const img=card.querySelector('.work-project-media img');if(img&&names[i])img.src=`assets/${String(i+1).padStart(2,'0')}-${names[i]}.jpg`});
   }
 
   const industryGrid=document.querySelector('.industry-grid');
