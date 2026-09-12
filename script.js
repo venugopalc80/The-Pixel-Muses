@@ -24,8 +24,9 @@
     .nav-menu-cta{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:2px;padding:14px 15px;background:#171716;color:#f4f0e8;border-radius:11px}
     .nav-menu-cta strong{display:block;font-size:12px;font-weight:700;margin-bottom:3px}.nav-menu-cta small{display:block;color:#aaa59b;font-size:10px}.nav-menu-cta b{font-size:18px;font-weight:400}
     .nav-industries-menu{width:400px}
-    .site-header .nav>.button.button-outline{background:#f1efe9;color:#171714;border-color:#f1efe9}
-    .site-header .nav>.button.button-outline:hover{background:#fffdf7;color:#171714;border-color:#fffdf7;transform:translateY(-1px)}
+    .site-header .nav>.button.button-outline{background:#f1efe9!important;color:#171714!important;border-color:#f1efe9!important;opacity:1!important}
+    .site-header .nav>.button.button-outline span{color:#80663e!important}
+    .site-header .nav>.button.button-outline:hover{background:#fffdf7!important;color:#171714!important;border-color:#fffdf7!important;transform:translateY(-1px)}
     @media(max-width:1000px){.nav-dropdown{display:block;height:auto;width:100%}.nav-drop-trigger{width:100%;justify-content:space-between;padding:10px 0}.nav-dropdown-menu{position:static;width:100%;transform:none!important;display:none;opacity:1;visibility:visible;pointer-events:auto;box-shadow:none;border-radius:10px;padding:12px;margin:0 0 8px;background:#171a1d;color:#f4f0e8;grid-template-columns:1fr}.nav-dropdown.is-open .nav-dropdown-menu{display:grid}.nav-menu-label{color:#8d918f}.nav-menu-group a{color:#d7d9d6}.nav-menu-group a:hover{background:#22272b;color:#fff}.nav-menu-cta{background:#24292d}.nav-menu-cta small{color:#aeb2b0}}
   `);
 
@@ -90,7 +91,7 @@
       {title:'SECTORS',links:[['Hospitality & Food','industries.html#hospitality'],['Retail & E-commerce','industries.html#retail'],['Property & Automotive','industries.html#property-automotive']]}
     ], 'Explore all industries', 'See where we can help your business.', 'industries.html', 'nav-industries-menu'));
 
-    const pricing = [...nav.querySelectorAll('a')].find(a => a.textContent.trim().toLowerCase() === 'pricing');
+    const pricing = [...nav.querySelectorAll('a')].find(a => a.textContent.trim().toLowerCase() === 'pricing' || a.textContent.trim().toLowerCase() === 'work with us');
     if (pricing) {
       pricing.textContent = 'Work With Us';
       pricing.href = 'pricing.html';
@@ -118,7 +119,6 @@
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 
-  // Keep the existing Work cards using their dedicated SVG previews.
   const work = document.getElementById('workPanels');
   if (work) {
     const names = ['property-adviser','tpm-clothing','qahwa-for-life','revamp-automotive','mooreish-delights','leia-florals','dr-mo','social-luxe','maple','nova-rituals'];
@@ -128,10 +128,8 @@
     });
   }
 
-  // Homepage hero refinement.
   const hero = document.querySelector('.hero');
   if (hero) {
-    hero.querySelector('.hero-copy h1')?.replaceChildren(document.createTextNode('Websites that work harder for your business.'));
     const h1 = hero.querySelector('.hero-copy h1');
     if (h1) h1.innerHTML = 'Websites that work <em>harder for your business.</em>';
     const lead = hero.querySelector('.hero-lead');
@@ -148,7 +146,6 @@
     }
   }
 
-  // Keep homepage industry wording aligned with the dedicated page.
   const industryGrid = document.querySelector('.industry-grid');
   if (industryGrid) {
     const property = [...industryGrid.querySelectorAll('a')].find(a => a.querySelector('strong')?.textContent.trim() === 'Property');
@@ -158,7 +155,6 @@
     }
   }
 
-  // Discovery section.
   const growth = document.querySelector('.growth-grid');
   if (growth) {
     const copy = growth.querySelector(':scope > div:first-child');
@@ -181,4 +177,3 @@
     @media(max-width:760px){.site-header .nav{height:72px}.site-header .brand-mark,.site-header .brand-mark img{width:50px;height:50px}.site-header .brand-mark{flex-basis:50px}.site-header .brand-copy strong{font-size:16px}.site-header .brand-copy small{font-size:6.5px}.site-header .primary-nav{top:72px}}
   `);
 })();
-\n\n/* TPM HEADER REFINEMENT v1 */\n(function(){\n  const style=document.createElement('style');\n  style.textContent=`\n    .site-header .primary-nav{gap:25px;color:#d5d2c9}\n    .site-header .primary-nav a,.site-header .nav-drop-trigger{color:#d5d2c9}\n    .site-header .primary-nav a:hover,.site-header .nav-drop-trigger:hover{color:#f1efe9}\n    .site-header .nav>.button.button-outline{background:#f1efe9;color:#171714;border-color:#f1efe9}\n    .site-header .nav>.button.button-outline:hover{background:#fffdf7;color:#171714;border-color:#fffdf7;transform:translateY(-1px)}\n    .site-header .nav>.button.button-outline span{color:#80663e}\n    @media(max-width:1100px){.site-header .primary-nav{gap:17px}}\n  `;\n  document.head.appendChild(style);\n})();\n(function(){\n  const links=[...document.querySelectorAll('.primary-nav a')];\n  const pricing=links.find(a=>a.textContent.trim().toLowerCase()==='pricing');\n  if(pricing){pricing.textContent='Work With Us';pricing.href='pricing.html';}\n})();\n
