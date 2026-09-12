@@ -20,9 +20,7 @@ Social:
 
 All social icons use inline brand-style SVG marks and open the supplied official profile URLs in a new tab.
 
-
 V14: Social icons now use recognizable platform brand colors while preserving the site's restrained layout. Links remain the supplied profile URLs.
-
 
 ## V15.1
 - Strengthened homepage entity clarity for search/AEO/GEO.
@@ -31,10 +29,11 @@ V14: Social icons now use recognizable platform brand colors while preserving th
 - Kept the established dark/gold brand system unchanged.
 - No fabricated statistics or performance claims were added.
 
-
 ## Final build
 Stable production baseline. Experimental full-page 3D/service animations are intentionally excluded.
 
-
 ## V15.2
 - Refined the selected-work showcase proportions and restored real project JPG imagery in the interactive cards.
+
+## V15.3
+- Trigger production deployment for the latest selected-work imagery refinement.
