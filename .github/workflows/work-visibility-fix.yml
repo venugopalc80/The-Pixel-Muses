@@ -20,12 +20,15 @@ jobs:
           s=s.replace('.work-project.is-active .work-project-media img{filter:saturate(.9) brightness(.84);transform:scale(1)}','.work-project.is-active .work-project-media img{filter:saturate(.96) brightness(.98);transform:scale(1)}')
           s=s.replace('.work-project-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,4,.14),rgba(5,5,4,.05) 35%,rgba(5,5,4,.9));}.work-project:not(.is-active) .work-project-shade{background:linear-gradient(180deg,rgba(5,5,4,.2),rgba(5,5,4,.62))}', '.work-project-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,4,.02),rgba(5,5,4,.04) 45%,rgba(5,5,4,.58));}.work-project:not(.is-active) .work-project-shade{background:linear-gradient(180deg,rgba(5,5,4,.04),rgba(5,5,4,.34))}')
           s=s.replace('.work-project:not(.is-active) .work-project-media img{filter:saturate(.75) brightness(.74);transform:scale(1.03)}','.work-project:not(.is-active) .work-project-media img{filter:saturate(.84) brightness(.9);transform:scale(1.03)}')
-          p.write_text(s)
+          marker='/* TPM colour hierarchy refinement */'
+          if marker not in s:
+              s += '''\n\n/* TPM colour hierarchy refinement */\n:root{--gold:#c7a66f;--gold-dark:#80663e}\n.hero-grid{opacity:.11;background-image:linear-gradient(rgba(199,166,111,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(199,166,111,.055) 1px,transparent 1px)}\n.eyebrow,.service-no,.industry-grid span,.work-stage-count b{color:var(--gold)}\n.hero h1 em,.section-heading h2 em,.hero .stack-main strong em{color:var(--text)}\n.statement h2 em,.existing-site h2 em{color:var(--gold-dark)}\n.primary-nav a:hover{color:var(--text)}\n.button{border-color:#3a3934}\n.button:hover{border-color:#77736a}\n.button-primary{background:var(--paper);color:var(--ink);border-color:var(--paper)}\n.button-primary:hover{background:#fffdf8;border-color:#fffdf8}\n.button-outline{color:var(--ink);border-color:#b9b4a9}\n.button-outline:hover{border-color:var(--gold-dark)}\n.service a{color:var(--text)}\n.industry-grid b{color:#9d9a92}\n.work-project.is-active{border-color:#4b4942}\n.work-project-meta span{color:var(--gold)}\n.pricing-grid .pricing-featured h3 em{color:var(--gold)}\n.pricing-grid .pricing-featured a{color:#c1a271}\n.process-list b{color:#8b7860}\n@media(max-width:760px){.work-project-meta span,.work-project:not(.is-active) .work-project-meta span{color:var(--gold)}}\n'''
+              p.write_text(s)
           PY
       - name: Commit CSS patch
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add styles.css
-          git diff --cached --quiet || git commit -m 'Fix Work showcase image visibility'
+          git diff --cached --quiet || git commit -m 'Refine website colour hierarchy'
           git push
