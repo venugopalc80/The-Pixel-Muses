@@ -106,22 +106,3 @@
 .social-links{display:flex;justify-content:center;gap:14px;margin:0;flex-wrap:wrap}.social-card{width:96px;min-height:94px;padding:13px 9px 11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px solid #30343a;background:#0d0f11;color:#fff;text-decoration:none;transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease}.social-card>span:last-child{font-size:10px;letter-spacing:.03em;color:#b8bcc2}.social-icon{width:36px;height:36px;display:grid;place-items:center}.social-icon img{display:block;width:100%;height:100%;object-fit:contain}.social-icon-linkedin img{width:32px;height:32px}.social-icon-facebook img{width:32px;height:32px}.social-icon-instagram img{width:35px;height:35px}.social-icon-threads img{width:31px;height:31px}.social-icon-x img{width:31px;height:31px}.social-card:hover,.social-card:focus-visible{transform:translateY(-4px);border-color:var(--gold);background:#111419;box-shadow:0 10px 28px rgba(0,0,0,.25)}.social-card:focus-visible{outline:2px solid var(--gold);outline-offset:3px}.social-instagram:hover,.social-instagram:focus-visible{border-color:#E4405F}.social-linkedin:hover,.social-linkedin:focus-visible{border-color:#0A66C2}.social-facebook:hover,.social-facebook:focus-visible{border-color:#1877F2}.social-threads:hover,.social-threads:focus-visible,.social-x:hover,.social-x:focus-visible{border-color:#fff}
 @media(max-width:640px){.social-links{gap:9px}.social-card{width:76px;min-height:78px;padding:10px 6px;gap:7px}.social-icon{width:30px;height:30px}.social-card>span:last-child{font-size:9px}}
 
-
-
-/* TPM WORK SHAPE REFINEMENT */
-.work-panels{gap:4px}
-.work-project{flex-basis:7.33%;border-color:#34342f}
-.work-project.is-active{flex-basis:34%;border-color:#806f55}
-.work-project-media{opacity:1}
-.work-project:not(.is-active) .work-project-media{opacity:.82}
-.work-project:not(.is-active) .work-project-media img{filter:saturate(.82) brightness(.78);transform:scale(1.035)}
-.work-project.is-active .work-project-media img{filter:saturate(.98) brightness(1.02);transform:scale(1.01)}
-.work-project-shade{background:linear-gradient(180deg,rgba(5,5,4,.02) 0%,rgba(5,5,4,.08) 48%,rgba(5,5,4,.62) 100%)}
-.work-project:not(.is-active) .work-project-shade{background:linear-gradient(180deg,rgba(5,5,4,.08) 0%,rgba(5,5,4,.26) 100%)}
-.work-project-info{padding:24px 25px}
-.work-project.is-active .work-project-info{padding:26px 28px}
-.work-project.is-active .work-project-bottom{max-width:700px}
-.work-project.is-active .work-project-bottom h3{font-size:clamp(28px,2.5vw,40px)}
-.work-project.is-active .work-project-bottom p{max-width:540px}
-@media(max-width:900px){.work-project{flex-basis:8%}.work-project.is-active{flex-basis:38%}}
-@media(max-width:760px){.work-project,.work-project.is-active{flex-basis:auto}.work-project:not(.is-active) .work-project-media{opacity:1}}
