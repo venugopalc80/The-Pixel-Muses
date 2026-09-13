@@ -1,1 +1,0 @@
-Temporary implementation notes for homepage SEO/AEO positioning. This branch is used for staged changes; the production homepage remains unchanged until the complete file can be safely updated.
