@@ -132,75 +132,9 @@
 
 
 
+
 <script data-work-motion>
-(function(){
-  const stage=document.querySelector('.work-stage');
-  const panels=[...document.querySelectorAll('.work-project')];
-  const current=document.getElementById('workCurrent');
-  const box=document.getElementById('workPanels');
-  if(!stage||!panels.length)return;
-  let active=-1,ticking=false;
-  const finePointer=()=>window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const reducedMotion=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function setActive(i){
-    i=Math.max(0,Math.min(panels.length-1,i));
-    if(i===active)return;
-    active=i;
-    panels.forEach((p,n)=>{p.classList.toggle('is-active',n===active);p.setAttribute('aria-pressed',String(n===active))});
-    if(current)current.textContent=String(active+1).padStart(2,'0');
-  }
-  function updateFromPageScroll(){
-    if(!finePointer())return;
-    const rect=stage.getBoundingClientRect();
-    const travel=Math.max(1,stage.offsetHeight-window.innerHeight);
-    const startLine=window.innerHeight*.34;
-    const progress=Math.max(0,Math.min(0.9999,(startLine-rect.top)/travel));
-    setActive(Math.floor(progress*panels.length));
-  }
-  function updateFromHorizontalScroll(){
-    if(finePointer()||!box)return;
-    const center=box.scrollLeft+box.clientWidth/2;
-    let nearest=0,dist=Infinity;
-    panels.forEach((p,i)=>{const d=Math.abs((p.offsetLeft+p.offsetWidth/2)-center);if(d<dist){dist=d;nearest=i}});
-    setActive(nearest);
-  }
-  function onScroll(){
-    if(ticking)return;
-    ticking=true;
-    requestAnimationFrame(()=>{if(finePointer())updateFromPageScroll();else updateFromHorizontalScroll();ticking=false});
-  }
-  panels.forEach((p,i)=>{
-    p.addEventListener('pointerenter',()=>{if(finePointer()&&reducedMotion())setActive(i)});
-    p.addEventListener('focusin',()=>setActive(i));
-    p.addEventListener('click',()=>setActive(i));
-    p.addEventListener('keydown',e=>{
-      if(e.key==='ArrowRight'){e.preventDefault();setActive(active+1);panels[active].focus()}
-      else if(e.key==='ArrowLeft'){e.preventDefault();setActive(active-1);panels[active].focus()}
-      else if((e.key==='Enter'||e.key===' ')&&e.target===p){e.preventDefault();setActive(i)}
-    });
-  });
-  if(box)box.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onScroll,{passive:true});
-  document.querySelectorAll('.work-project-media img').forEach(img=>{
-    const showFallback=()=>{
-      img.hidden=true;img.style.display='none';
-      const media=img.closest('.work-project-media');
-      if(!media||media.querySelector('.work-image-fallback'))return;
-      const title=img.alt.replace(/\\s*(website|site)?\\s*preview/i,'').trim()||'Selected work';
-      media.classList.add('is-image-fallback');
-      const fallback=document.createElement('div');
-      fallback.className='work-image-fallback';
-      fallback.innerHTML='<span>THE PIXEL MUSES</span><strong></strong><small>Project preview unavailable</small>';
-      fallback.querySelector('strong').textContent=title;
-      media.appendChild(fallback);
-    };
-    img.addEventListener('error',showFallback,{once:true});
-    if(img.complete&&img.naturalWidth===0)showFallback();
-  });
-  setActive(0);
-  onScroll();
-})();
+(function(){const stage=document.querySelector('.work-showcase'),panels=[...document.querySelectorAll('.work-project')],current=document.getElementById('workCurrent');if(!stage||!panels.length)return;let active=-1,ticking=false;const finePointer=()=>window.matchMedia('(hover:hover) and (pointer:fine)').matches;function setActive(i){i=Math.max(0,Math.min(panels.length-1,i));if(i===active)return;active=i;panels.forEach((p,n)=>p.classList.toggle('is-active',n===active));if(current)current.textContent=String(active+1).padStart(2,'0')}function updateMobileFromScroll(){if(finePointer())return;const box=document.getElementById('workPanels');if(!box)return;const center=box.scrollLeft+box.clientWidth/2;let nearest=0,dist=Infinity;panels.forEach((p,i)=>{const d=Math.abs((p.offsetLeft+p.offsetWidth/2)-center);if(d<dist){dist=d;nearest=i}});setActive(nearest)}function scroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{updateMobileFromScroll();ticking=false})}panels.forEach((p,i)=>{p.addEventListener('pointerenter',()=>{if(finePointer())setActive(i)});p.addEventListener('focus',()=>setActive(i));p.addEventListener('click',()=>setActive(i));p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActive(i)}})});const box=document.getElementById('workPanels');if(box)box.addEventListener('scroll',scroll,{passive:true});setActive(0);updateMobileFromScroll()})();
 </script>
 </body>
 </html>
