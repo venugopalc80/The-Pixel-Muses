@@ -177,7 +177,7 @@
   window.addEventListener('resize',scroll,{passive:true});
   document.querySelectorAll('.work-project-media img').forEach(img=>{
     const showFallback=()=>{
-      img.hidden=true;
+      img.hidden=true;img.style.display='none';
       const media=img.closest('.work-project-media');
       if(!media||media.querySelector('.work-image-fallback'))return;
       const title=img.alt.replace(/\\s*(website|site)?\\s*preview/i,'').trim()||'Selected work';
