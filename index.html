@@ -57,12 +57,7 @@
 <section id="industries" class="section section-dark industries-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">WHO WE WORK WITH</p><h2>Built around the <em>business.</em></h2></div><p>Different industries have different customers, constraints and buying journeys. We adapt the digital experience to the business in front of us.</p></div><div class="industry-grid"><a href="industries/trades-home-services.html"><span>01</span><strong>Trades &amp; Home Services</strong><small>Heating · Plumbing · Electrical · Construction · Automotive</small><b>→</b></a><a href="#contact"><span>02</span><strong>Professional Services</strong><small>Accountants · Solicitors · Consultants · Recruitment · Mortgage</small><b>→</b></a><a href="industries/salons-beauty.html"><span>03</span><strong>Health &amp; Beauty</strong><small>Clinics · Salons · Barbers · Fitness · Wellness</small><b>→</b></a><a href="industries/restaurants-food.html"><span>04</span><strong>Hospitality &amp; Food</strong><small>Restaurants · Cafés · Takeaways · Food Brands</small><b>→</b></a><a href="#contact"><span>05</span><strong>Retail &amp; E-commerce</strong><small>Fashion · Jewellery · Beauty · Consumer Brands</small><b>→</b></a><a href="#contact"><span>06</span><strong>Property</strong><small>Estate Agents · Developers · Property Services</small><b>→</b></a></div></div></section>
 <section id="work" class="section section-dark work-section work-showcase">
   <div class="container"><div class="section-intro work-intro"><p class="eyebrow">SELECTED WORK</p><h2>Built for different businesses.<br><em>Designed around the problem.</em></h2><p>Ten selected digital experiences across property, commerce, hospitality, services, healthcare and more.</p></div></div>
-  <div class="work-stage" aria-label="Selected work showcase"><div class="work-stage-head container"><span>OUR WORK</span><span class="work-stage-count"><b id="workCurrent">01</b> / 10</span></div>
-<div class="work-gallery-controls container" aria-label="Portfolio project navigation">
-  <button type="button" class="work-gallery-control" id="workPrev" aria-label="Previous project">← <span>Previous</span></button>
-  <p>Explore the work. Select a project to view its live demo.</p>
-  <button type="button" class="work-gallery-control" id="workNext" aria-label="Next project"><span>Next</span> →</button>
-</div><div class="work-panels" id="workPanels"><article class="work-project" data-index="0" tabindex="0" role="button" aria-label="Open Property Adviser project">
+  <div class="work-stage" aria-label="Selected work showcase"><div class="work-stage-head container"><span>OUR WORK</span><span class="work-stage-count"><b id="workCurrent">01</b> / 10</span></div><div class="work-panels" id="workPanels"><article class="work-project" data-index="0" tabindex="0" role="button" aria-label="Open Property Adviser project">
   <a class="work-project-link" href="https://property-adviser-co-uk.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="View Property Adviser live demo">
     <div class="work-project-media"><img src="assets/01-property-adviser.jpg" alt="Property Adviser website preview" loading="lazy" decoding="async"><div class="work-project-shade"></div></div>
     <div class="work-project-info"><div class="work-project-meta"><span>01</span><small>PROPERTY / DIGITAL PRODUCT</small></div><div class="work-project-bottom"><div><h3>Property Adviser</h3><p>A property discovery experience shaped around clearer search, stronger presentation and confident decisions.</p></div><span class="work-project-arrow">↗</span></div></div>
@@ -136,63 +131,9 @@
 
 
 
+
 <script data-work-motion>
-(function(){
-  const stage=document.querySelector('.work-showcase');
-  const panels=[...document.querySelectorAll('.work-project')];
-  const current=document.getElementById('workCurrent');
-  const prev=document.getElementById('workPrev');
-  const next=document.getElementById('workNext');
-  const box=document.getElementById('workPanels');
-  if(!stage||!panels.length)return;
-  let active=-1,ticking=false;
-  const finePointer=()=>window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  function setActive(i,scrollIntoView=false){
-    i=Math.max(0,Math.min(panels.length-1,i));
-    active=i;
-    panels.forEach((p,n)=>{p.classList.toggle('is-active',n===active);p.setAttribute('aria-pressed',String(n===active))});
-    if(current)current.textContent=String(active+1).padStart(2,'0');
-    if(scrollIntoView&&box){const p=panels[active];box.scrollTo({left:p.offsetLeft-box.offsetLeft-(box.clientWidth-p.offsetWidth)/2,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
-  }
-  function updateMobileFromScroll(){
-    if(finePointer()||!box)return;
-    const center=box.scrollLeft+box.clientWidth/2;let nearest=0,dist=Infinity;
-    panels.forEach((p,i)=>{const d=Math.abs((p.offsetLeft+p.offsetWidth/2)-center);if(d<dist){dist=d;nearest=i}});
-    setActive(nearest);
-  }
-  function scroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{updateMobileFromScroll();ticking=false})}
-  panels.forEach((p,i)=>{
-    p.addEventListener('pointerenter',()=>{if(finePointer())setActive(i)});
-    p.addEventListener('focusin',()=>setActive(i));
-    p.addEventListener('click',()=>setActive(i));
-    p.addEventListener('keydown',e=>{
-      if(e.key==='ArrowRight'){e.preventDefault();setActive(active+1,true);panels[active].focus()}
-      else if(e.key==='ArrowLeft'){e.preventDefault();setActive(active-1,true);panels[active].focus()}
-      else if(e.key==='Enter'||e.key===' '){if(e.target===p){e.preventDefault();setActive(i,true)}}
-    });
-  });
-  if(prev)prev.addEventListener('click',()=>setActive(active-1,true));
-  if(next)next.addEventListener('click',()=>setActive(active+1,true));
-  if(box)box.addEventListener('scroll',scroll,{passive:true});
-  window.addEventListener('resize',scroll,{passive:true});
-  document.querySelectorAll('.work-project-media img').forEach(img=>{
-    const showFallback=()=>{
-      img.hidden=true;img.style.display='none';
-      const media=img.closest('.work-project-media');
-      if(!media||media.querySelector('.work-image-fallback'))return;
-      const title=img.alt.replace(/\\s*(website|site)?\\s*preview/i,'').trim()||'Selected work';
-      media.classList.add('is-image-fallback');
-      const fallback=document.createElement('div');
-      fallback.className='work-image-fallback';
-      fallback.innerHTML='<span>THE PIXEL MUSES</span><strong></strong><small>Project preview unavailable</small>';
-      fallback.querySelector('strong').textContent=title;
-      media.appendChild(fallback);
-    };
-    img.addEventListener('error',showFallback,{once:true});
-    if(img.complete&&img.naturalWidth===0)showFallback();
-  });
-  setActive(0);
-})();
+(function(){const stage=document.querySelector('.work-showcase'),panels=[...document.querySelectorAll('.work-project')],current=document.getElementById('workCurrent');if(!stage||!panels.length)return;let active=-1,ticking=false;const finePointer=()=>window.matchMedia('(hover:hover) and (pointer:fine)').matches;function setActive(i){i=Math.max(0,Math.min(panels.length-1,i));if(i===active)return;active=i;panels.forEach((p,n)=>p.classList.toggle('is-active',n===active));if(current)current.textContent=String(active+1).padStart(2,'0')}function updateMobileFromScroll(){if(finePointer())return;const box=document.getElementById('workPanels');if(!box)return;const center=box.scrollLeft+box.clientWidth/2;let nearest=0,dist=Infinity;panels.forEach((p,i)=>{const d=Math.abs((p.offsetLeft+p.offsetWidth/2)-center);if(d<dist){dist=d;nearest=i}});setActive(nearest)}function scroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{updateMobileFromScroll();ticking=false})}panels.forEach((p,i)=>{p.addEventListener('pointerenter',()=>{if(finePointer())setActive(i)});p.addEventListener('focus',()=>setActive(i));p.addEventListener('click',()=>setActive(i));p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActive(i)}})});const box=document.getElementById('workPanels');if(box)box.addEventListener('scroll',scroll,{passive:true});setActive(0);updateMobileFromScroll()})();
 </script>
 </body>
 </html>
