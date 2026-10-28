@@ -42,7 +42,7 @@
 
 /* TPM colour hierarchy refinement */
 :root{--gold:#c7a66f;--gold-dark:#80663e}
-.hero-grid{opacity:.11;background-image:linear-gradient(rgba(199,166,111,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(199,166,111,.055) 1px,transparent 1px)}
+.hero-grid{pointer-events:none;opacity:.11;background-image:linear-gradient(rgba(199,166,111,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(199,166,111,.055) 1px,transparent 1px)}
 .eyebrow,.service-no,.industry-grid span,.work-stage-count b{color:var(--gold)}
 .hero h1 em,.section-heading h2 em,.hero .stack-main strong em{color:var(--text)}
 .statement h2 em,.existing-site h2 em{color:var(--gold-dark)}
